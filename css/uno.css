@@ -37,7 +37,7 @@ q:before, q:after {
 
 
 body {
-  width: 200%;
+  width: 100%;
   *zoom: 1; }
   body:before, body:after {
     content: "";
@@ -1061,7 +1061,7 @@ code {
 .block-heading {
   display: inline;
   float: left;
-  width: 940px;
+  width: 2000px;
   margin: 0 10px;
   position: relative;
   bottom: -15px;
