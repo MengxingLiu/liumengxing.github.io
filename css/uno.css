@@ -1122,7 +1122,7 @@ hr {
   border: none; }
 
 .section-title__divider {
-  width: 50%;
+  width: 40%;
   margin: 2.2em 0 2.1em 0;
   border-top: 1px solid #dddddd; }
 
@@ -1177,7 +1177,7 @@ hr {
 
 .panel-title {
   margin: 0 0 5px 0;
-  font-size: 2.5em;
+  font-size: 5em;
   letter-spacing: 4px;
   color: #FFF; }
 
