@@ -1061,7 +1061,7 @@ code {
 .block-heading {
   display: inline;
   float: left;
-  width: 2000px;
+  width: 960px;
   margin: 0 10px;
   position: relative;
   bottom: -15px;
@@ -1088,8 +1088,8 @@ code {
 
 .content-wrapper {
   z-index: 800;
-  width: 68%;
-  max-width: 960px;
+  width: 100%;
+  max-width: 2000px;
   margin-left: 32%; }
 
 .content-wrapper__inner {
