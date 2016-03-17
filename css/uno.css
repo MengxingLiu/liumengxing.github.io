@@ -925,7 +925,7 @@ html {
 
 body {
   /*font-family: "Raleway", sans-serif;*/
-  font-family:  "Raleway",Verdana,sans-serif,宋体, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
+  font-family:  "Raleway",Verdana,sans-serif,����, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
   font-size: 1em;
   color: #666666; }
 
@@ -954,7 +954,7 @@ h5 {
   margin-top: .8em;
   margin-bottom: .4em;
   /*font-family: "Roboto Slab", serif;*/
-  font-family: "Raleway",Verdana,sans-serif,宋体, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
+  font-family: "Raleway",Verdana,sans-serif,����, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
   font-weight: lighter;
   color: #333333;
   -webkit-font-smoothing: antialiased; }
@@ -963,7 +963,7 @@ h1 {
   margin-top: 0;
   font-size: 1.6em;
   line-height: 1.2em;
-  font-family: sans-serif,Helvetica Neue, "Raleway",Verdana,宋体, serif, "Droid Serif", Helvetica, Arial;
+  font-family:Arial, sans-serif,Helvetica Neue, "Raleway",Verdana,����, serif, "Droid Serif", Helvetica, Arial;
   letter-spacing: .05em; }
 
 h2 {
@@ -998,7 +998,7 @@ blockquote {
   border: 1px solid #eeeeee;
   border-radius: 3px;
   /*font-family: "Roboto Slab", serif;*/
-  font-family:  "Raleway",Verdana,sans-serif,宋体, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
+  font-family:  "Raleway",Verdana,sans-serif,����, serif, "Droid Serif", Helvetica Neue, Helvetica, Arial;
   font-weight: lighter;
   font-style: italic;
   font-size: 1.0em;
