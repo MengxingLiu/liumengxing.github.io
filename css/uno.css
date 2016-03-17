@@ -1089,7 +1089,7 @@ code {
 .content-wrapper {
   z-index: 800;
   width: 100%;
-  max-width: 2000px;
+  max-width: 1500px;
   margin-left: 32%; }
 
 .content-wrapper__inner {
