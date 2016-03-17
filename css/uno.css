@@ -37,7 +37,7 @@ q:before, q:after {
 
 
 body {
-  width: 100%;
+  width: 200%;
   *zoom: 1; }
   body:before, body:after {
     content: "";
@@ -1645,7 +1645,7 @@ input[type="tel"] {
         width: 25.8%; }
 
   .content-wrapper {
-    width: 120%;
+    width: 80%;
     max-width: none;
     margin: 0 auto; }
 
