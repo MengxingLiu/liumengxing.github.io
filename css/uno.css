@@ -37,7 +37,7 @@ q:before, q:after {
 
 
 body {
-  width: 140%;
+  width: 100%;
   *zoom: 1; }
   body:before, body:after {
     content: "";
@@ -1122,7 +1122,7 @@ hr {
   border: none; }
 
 .section-title__divider {
-  width: 30%;
+  width: 50%;
   margin: 2.2em 0 2.1em 0;
   border-top: 1px solid #dddddd; }
 
