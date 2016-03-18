@@ -1178,7 +1178,7 @@ hr {
 
 .panel-title {
   margin: 0 0 5px 0;
-  font-size: 2.8em;
+  font-size: 5em;
   letter-spacing: 4px;
   color: #FFF; }
 
@@ -1557,7 +1557,7 @@ input[type="tel"] {
     width: 70px; }
 
   .panel-title {
-    font-size: 5em; }
+    font-size: 2em; }
 
   .panel-subtitle {
     font-size: 1em; }
