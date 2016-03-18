@@ -1104,14 +1104,6 @@ code {
   font-size: .7em;
   color: #b3b3b3; }
 
-.footer__copyright {
-  display: block;
-  margin-bottom: .7em; }
-  .footer__copyright a {
-    color: #a6a6a6;
-    text-decoration: underline; }
-    .footer__copyright a:hover {
-      color: #006699; }
 
 .avatar,
 .logo {
@@ -1178,7 +1170,7 @@ hr {
 
 .panel-title {
   margin: 0 0 5px 0;
-  font-size: 5em;
+  font-size: 2.8em;
   letter-spacing: 4px;
   color: #FFF; }
 
