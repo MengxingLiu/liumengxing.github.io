@@ -1428,7 +1428,7 @@ i {
   margin-top: 0;
   margin-bottom: .2em;
 
-  font-size: 3em;
+  font-size: 1.2em;
   -webkit-font-smoothing: antialiased;
   font-weight: bold;
   line-height: 1.3em; }
@@ -1557,7 +1557,7 @@ input[type="tel"] {
     width: 70px; }
 
   .panel-title {
-    font-size: 2em; }
+    font-size: 5em; }
 
   .panel-subtitle {
     font-size: 1em; }
