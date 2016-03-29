@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://mengxing.science/2016/03/29/Python_crawl/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
 <meta property="og:description" content="When I was preparing for the IELTS, I tried downloaded the MP3 of Weekly Address on Whitehouse.org. But there were hundreds of files from 2012-2016. As a man who prosess Laziness, Impatience and Hubri">
-<meta property="og:updated_time" content="2016-03-29T12:19:26.514Z">
+<meta property="og:updated_time" content="2016-03-29T12:41:03.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Crawling Weekly Address on Whitehouse.org using Python | Mengxing Liu">
 <meta name="twitter:description" content="When I was preparing for the IELTS, I tried downloaded the MP3 of Weekly Address on Whitehouse.org. But there were hundreds of files from 2012-2016. As a man who prosess Laziness, Impatience and Hubri">
@@ -177,8 +177,11 @@ classes that you can use:
   <section id="post-content" class="article-content post">
     <p>When I was preparing for the IELTS, I tried downloaded the MP3 of Weekly Address on <a href="https://www.whitehouse.gov/briefing-room/weekly-address" target="_blank" rel="external">Whitehouse.org</a>. But there were hundreds of files from 2012-2016. As a man who prosess <strong>Laziness</strong>, <strong>Impatience</strong> and <strong>Hubris</strong> ( three virtues of software design accordding to Larry Wall, what a coincidence! ), I could not tolerate this repetitive work, which should be the job of computer. Then I thought, hey, Python may be a good idea. So I spent hours on the book and internet finding a solution to make the computer do its work using python. I have to say, it’s really a good way to kill time.<br>Below is the codes.</p>
 <hr>
-<p>   import urllib.request<br>    import re<br>    import sys</p>
-<pre><code>import time
+<pre><code>import urllib.request
+import re
+import sys
+
+import time
 
 
 def read_html(per_url):
