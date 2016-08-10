@@ -7,7 +7,7 @@
     
 
     <title>
-      test | Mengxing Liu 
+      Inter-subject correlation(ISC) in AFNI | Mengxing Liu 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,16 +16,16 @@
     
     
 
-    <meta name="description" content="Mengxing Liu&apos;s website">
+    <meta name="description" content="Nothing Special.Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.I assume you already know something about Shell and AFNI when you are seeing this.As">
 <meta property="og:type" content="article">
-<meta property="og:title" content="test | Mengxing Liu">
-<meta property="og:url" content="http://mengxing.science/2016/08/08/test/index.html">
+<meta property="og:title" content="Inter-subject correlation(ISC) in AFNI | Mengxing Liu">
+<meta property="og:url" content="http://mengxing.science/2016/01/08/test/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
-<meta property="og:description" content="Mengxing Liu&apos;s website">
-<meta property="og:updated_time" content="2016-08-08T14:28:09.106Z">
+<meta property="og:description" content="Nothing Special.Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.I assume you already know something about Shell and AFNI when you are seeing this.As">
+<meta property="og:updated_time" content="2016-08-10T00:59:57.996Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="test | Mengxing Liu">
-<meta name="twitter:description" content="Mengxing Liu&apos;s website">
+<meta name="twitter:title" content="Inter-subject correlation(ISC) in AFNI | Mengxing Liu">
+<meta name="twitter:description" content="Nothing Special.Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.I assume you already know something about Shell and AFNI when you are seeing this.As">
     
     
     
@@ -154,12 +154,12 @@ classes that you can use:
 
   <header class="post-header">
     
-    <h1 class="post-title">test</h1>
+    <h1 class="post-title">Inter-subject correlation(ISC) in AFNI</h1>
 
     
 
     <div class="post-meta">
-      <time datetime="2016-08-08" class="post-meta__date date">2016-08-08</time> 
+      <time datetime="2016-01-08" class="post-meta__date date">2016-01-08</time> 
 
       <span class="post-meta__tags tags">
 
@@ -175,7 +175,19 @@ classes that you can use:
   </header>
 
   <section id="post-content" class="article-content post">
-    
+    <p>Nothing Special.<br>Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.<br>I assume you already know something about Shell and AFNI when you are seeing this.<br>As you may know, there are at least two ways to evaluate the coefficient between subjects in a group,which result in nearly identical correlation maps(Honey,2012)<br>Here only one of them are introduced.<br>An correlation coefficients set is created through map of each subject correlating with the average map of the other individuals.<br>Be sure you get rid of the one time course which you are going to do correlation between it and group when you are averaging the time course of group.</p>
+<pre><code>set datapath = /directory where your datatsets are
+cd "$anapath"
+set listening = (listening_chn_sub01.nii listening_chn_sub02.nii listening_chn_sub03.nii \
+listening_chn_sub04.nii listening_chn_sub05.nii listening_chn_sub06.nii \
+listening_chn_sub07.nii listening_chn_sub08.nii listening_chn_sub09.nii \
+listening_chn_sub10.nii listening_chn_sub11.nii listening_chn_sub12.nii \
+listening_chn_sub13.nii listening_chn_sub14.nii listening_chn_sub15.nii listening_chn_sub16.nii) # all of your time course in one group
+set subject = (sub01 sub02 sub03 sub04 sub05 sub06 sub07 sub08 sub09 sub10 sub11 sub12 \
+sub13 sub14 sub15 sub16)
+set i = 1
+while ( $i <= 0="" 16="" )="" set="" sub="(`echo" ${subject}="" |="" awk="" '{print="" $'$i'}'`)="" listening="(`echo" $listening="" '{$'$i'="" ;="" sub("="" ",="" "="" ");="" print}'`)="" reading="(`echo" $reading="" 3dmean="" -prefix="" mean_chn_listening.nii="" 3dtcorrelate="" -pearson="" -polort="" -1="" r_listening_chn_"$sub".nii="" listening_chn_"$sub".nii="" 3dcalc="" -a="" -expr="" '0.5*(log((1+a)="" (1-a)))'="" z_listening_chn_"$sub".nii="" #="" transform="" the="" r="" value="" to="" z="" rm="" be="" sure="" you="" remove="" average="" time="" course="" map="" when="" are="" done="" one="" loop @="" i="" ++="" end="" now="" that="" all="" of="" correlation="" maps="" created="" for="" each="" subject.="" can="" do="" a="" sample="" t-test="" against="" see="" if="" there="" any="" voxels="" showing="" significant="" in="" this="" group.="" 3dttest++="" ttest_listening_chn.nii="" \="" -seta="" z_listening_chn_*.nii="" <="" code=""></=></code></pre>
+
   </section>
 
   
