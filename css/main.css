@@ -499,12 +499,12 @@ body {
 }
 pre,
 .highlight {
-  background: #002451;
+  background: #f7f7f7;
   margin: 20px 0;
   padding: 15px;
   overflow: auto;
   font-size: 13px;
-  color: #fff;
+  color: #4d4d4c;
   line-height: 1.6;
 }
 .highlight .gutter pre {
@@ -541,7 +541,7 @@ pre code {
 }
 .highlight figcaption {
   font-size: 0.85em;
-  color: #7285b7;
+  color: #8e908c;
   line-height: 1em;
   margin-bottom: 1em;
 }
@@ -564,7 +564,7 @@ pre code {
   height: 20px;
 }
 pre .comment {
-  color: #7285b7;
+  color: #8e908c;
 }
 pre .variable,
 pre .attribute,
@@ -578,7 +578,7 @@ pre .html .doctype,
 pre .css .id,
 pre .css .class,
 pre .css .pseudo {
-  color: #ff9da4;
+  color: #c82829;
 }
 pre .number,
 pre .preprocessor,
@@ -587,11 +587,11 @@ pre .literal,
 pre .params,
 pre .constant,
 pre .command {
-  color: #ffc58f;
+  color: #f5871f;
 }
 pre .ruby .class .title,
 pre .css .rules .attribute {
-  color: #d1f1a9;
+  color: #718c00;
 }
 pre .string,
 pre .value,
@@ -602,11 +602,11 @@ pre .xml .cdata,
 pre .special,
 pre .number,
 pre .formula {
-  color: #d1f1a9;
+  color: #718c00;
 }
 pre .title,
 pre .css .hexcolor {
-  color: #9ff;
+  color: #3e999f;
 }
 pre .function,
 pre .python .decorator,
@@ -616,11 +616,11 @@ pre .ruby .title .keyword,
 pre .perl .sub,
 pre .javascript .title,
 pre .coffeescript .title {
-  color: #bbdaff;
+  color: #4271ae;
 }
 pre .keyword,
 pre .javascript .function {
-  color: #ebbbff;
+  color: #8959a8;
 }
 .full-image.full-image.full-image {
   border: none;
@@ -1512,7 +1512,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #67047a;
+  background: #46ffff;
 }
 .links-of-blogroll {
   font-size: 13px;
