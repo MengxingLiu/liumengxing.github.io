@@ -63,7 +63,7 @@
 <meta property="og:url" content="http://mengxing.science/2015/09/08/computingtest/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
 <meta property="og:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
-<meta property="og:updated_time" content="2016-08-10T04:40:26.931Z">
+<meta property="og:updated_time" content="2016-08-10T05:36:15.368Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Computing speed contrast between reading from matfile and binary file">
 <meta name="twitter:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
@@ -253,17 +253,8 @@
 <hr>
 <p>&lt;&lt; calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is <strong>176.910272 seconds</strong>.<br>&lt;&lt; calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is <strong>34.537742 seconds</strong>.</p>
 <p>Testing function(if you want to do some test, just write a simple loop :) ):</p>
-<hr>
-<pre><code>function calcor(method,result_path)
-%% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.
-tic;
-    if nargin == 0
-        method = 1;    
-    end
-    result_path = &apos;I:\StoryISC\listen_chn_result\data_mat\&apos;;
-    if method == 1
-
-        %% method one
+<p><pre><code><br>    function calcor(method,result_path)<br>    %% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.<br>    tic;<br>        if nargin == 0<br>            method = 1;<br>        end<br>        result_path = ‘I:\StoryISC\listen_chn_result\data_mat\’;<br>        if method == 1</code></pre></p>
+<pre><code>        %% method one
         % read map data from mat files
 
         name_list = dir(fullfile(result_path,&apos;*.mat&apos;));
@@ -348,7 +339,8 @@ tic;
     end
 toc;
 end
-</code></pre>
+</code></pre><p><pre></pre></p>
+
       
     </div>
 
