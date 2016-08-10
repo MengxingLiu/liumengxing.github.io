@@ -7,7 +7,7 @@
     
 
     <title>
-      Archives: 2016/3 
+      Crawling Weekly Address on Whitehouse.org using Python | Mengxing Liu 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -16,15 +16,16 @@
     
     
 
-    <meta name="description" content="Mengxing Liu&apos;s website">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Archives: 2016/3">
-<meta property="og:url" content="http://mengxing.science/archives/2016/03/index.html">
+    <meta name="description" content="When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on Whitehouse.org. But there were hundreds of files from 2012-2016. As a man who prosess Laziness, Impatience and Hubr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Crawling Weekly Address on Whitehouse.org using Python | Mengxing Liu">
+<meta property="og:url" content="http://mengxing.science/2015/01/08/Python_crawl/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
-<meta property="og:description" content="Mengxing Liu&apos;s website">
+<meta property="og:description" content="When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on Whitehouse.org. But there were hundreds of files from 2012-2016. As a man who prosess Laziness, Impatience and Hubr">
+<meta property="og:updated_time" content="2016-08-10T01:05:57.907Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Archives: 2016/3">
-<meta name="twitter:description" content="Mengxing Liu&apos;s website">
+<meta name="twitter:title" content="Crawling Weekly Address on Whitehouse.org using Python | Mengxing Liu">
+<meta name="twitter:description" content="When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on Whitehouse.org. But there were hundreds of files from 2012-2016. As a man who prosess Laziness, Impatience and Hubr">
     
     
     
@@ -149,65 +150,87 @@ classes that you can use:
         <div class="content-wrapper__inner entry">
             
 
+<article class="post-container post-container--single">
 
-  <h1 class="archive-title">Archives: 2016/3</h1>
-  <hr class="post-list__divider" />
-
-
-<div class="main-post-list">
-    <ol class="post-list">
+  <header class="post-header">
     
-    
-    <li>
+    <h1 class="post-title">Crawling Weekly Address on Whitehouse.org using Python</h1>
 
-      <h2 class="post-list__post-title post-title">
-        <a href="/2016/03/29/Python_crawl/" title="link to Crawling Weekly Address on Whitehouse.org using Python">Crawling Weekly Address on Whitehouse.org using Python</a>
-      </h2>
-
-      <div class="post-list__meta">
-
-        <time datetime="2016-03-29" class="post-list__meta--date date">2016-03-29</time> 
-      </div>
-
-      <div class="excerpt">
-        
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-    <li>
-
-      <h2 class="post-list__post-title post-title">
-        <a href="/2016/03/18/hello-world/" title="link to Hello World">Hello World</a>
-      </h2>
-
-      <div class="post-list__meta">
-
-        <time datetime="2016-03-18" class="post-list__meta--date date">2016-03-18</time> 
-      </div>
-
-      <div class="excerpt">
-        
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-  </ol>
-
-  <hr class="post-list__divider " />
-
-<nav class="pagination" role="navigation">
     
 
-    <span class="pagination__page-number"> 1 / 1</span>
+    <div class="post-meta">
+      <time datetime="2015-01-08" class="post-meta__date date">2015-01-08</time> 
+
+      <span class="post-meta__tags tags">
+
+          
+
+          
+
+      </span>
+    </div>
     
     
-</nav>
+
+  </header>
+
+  <section id="post-content" class="article-content post">
+    <p>When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on <a href="https://www.whitehouse.gov/briefing-room/weekly-address" target="_blank" rel="external">Whitehouse.org</a>. But there were hundreds of files from 2012-2016. As a man who prosess <strong>Laziness</strong>, <strong>Impatience</strong> and <strong>Hubris</strong> ( three virtues of software design accordding to Larry Wall, what a coincidence! ), I could not tolerate this repetitive work, which should be the job of computer. Then I thought, hey, Python may be a good idea. So I spent hours on the book and internet finding a solution to make the computer do its work using python. I have to say, it’s really a good way to kill time.<br>Below is the codes.</p>
+<hr>
+<pre><code>import urllib.request
+import re
+import sys
+
+import time
 
 
-</div>
+def read_html(per_url):
+    __html__ = urllib.request.urlopen(per_url).read()
+    html_str = __html__.decode(&apos;utf-8&apos;)
+    return html_str
+
+
+def dl_mp4(per_url):
+    __html__ = read_html(per_url)
+    pattern = re.compile(r&apos;https.{,90}\.mp3&apos;)
+    name_pattern = re.compile(r&apos;\d{6}_.{,16}\.mp3&apos;)
+    vurl = pattern.findall(__html__)
+    name = name_pattern.findall(__html__)
+    if vurl and name:    
+        urllib.request.urlretrieve(vurl[0],&quot;%s&quot; % name[0])
+        print(vurl)
+        print(&quot;%s&quot; % name[0])    
+    else:
+        pass
+
+
+print(&quot;Start Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
+page_number = 0
+urls = []
+while page_number &lt;= 1:
+    html = read_html(&apos;https://www.whitehouse.gov/briefing-room/weekly-address?page=%d&apos; % page_number)
+    links = re.findall(r&apos;the-press-office.*weekly-address.*&quot;&apos;, html)
+    url_per_page = [&quot;https://www.whitehouse.gov/&quot;+x[:-1] for x in links[1:]]
+    page_number += 1
+    urls += url_per_page
+    print(&quot;Request Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
+print(urls)
+
+n = 0
+for url in urls:
+    dl_mp3(url)
+    n += 1
+    print(&quot;Receive %d file:&quot; % n ,time.strftime(&apos;%H:%M:%S&apos;))
+
+print(&quot;Finish Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
+</code></pre>
+  </section>
+
+  
+  
+</article>
+
+
             <footer class="footer">
 
     <span class="footer__copyright">&copy; 2014-2015. | 由<a href="https://hexo.io/">Hexo</a>强力驱动 | 主题<a href="https://github.com/someus/huno">Huno</a></span>
@@ -235,6 +258,18 @@ classes that you can use:
 
 
     
+
+    <script src="/js/awesome-toc.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $.awesome_toc({
+                overlay: true,
+                contentId: "post-content",
+            });
+        });
+    </script>
+
+
     
     
     <!--kill ie6 -->
