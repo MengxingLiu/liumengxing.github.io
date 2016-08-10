@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://mengxing.science/2015/09/08/computingtest/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
 <meta property="og:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
-<meta property="og:updated_time" content="2016-08-10T02:37:16.418Z">
+<meta property="og:updated_time" content="2016-08-10T02:39:09.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Computing speed contrast between reading from matfile and binary file | Mengxing Liu">
 <meta name="twitter:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
@@ -182,15 +182,14 @@ classes that you can use:
 <li>You can write/change variable in a large file without loading it, if you enable the permission.</li>
 </ul>
 <p>Ok, if you are convinced, you may wondering which function you want, matfile or fread.<br>Recently, I’m tring to do some caculation, and I wanted to know which one is more efficient. So I run a time test. And It turn out that reading from binary file using fread is faster.</p>
-<hr>
+<p><pre><code></code></pre></p>
 <blockquote>
 <blockquote>
-<p>calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is 176.910272 seconds.<br>calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is 34.537742 seconds.</p>
-</blockquote>
-</blockquote>
-<p>Testing function(if you want to do some test, just write a simple loop :) ):</p>
+<p>calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is 176.910272 seconds.<br>calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is 34.537742 seconds.<br><br>Testing function(if you want to do some test, just write a simple loop :) ):</p>
 <hr>
 <p>function calcor(method,result_path)<br>%% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.<br>tic;<br>    if nargin == 0<br>        method = 1;<br>    end<br>    result_path = ‘I:\StoryISC\listen_chn_result\data_mat\’;<br>    if method == 1</p>
+</blockquote>
+</blockquote>
 <pre><code>    %% method one
     % read map data from mat files
 
