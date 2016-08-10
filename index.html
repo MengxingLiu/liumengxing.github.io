@@ -248,7 +248,7 @@
 
       
         
-          <p>a<br>In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored in memory and ready for computing. Well, the problem is, if we read a single large dataset into a variable, it could slow down the computing speed, obviously.<br>The good news is Matlab offers functions allowing us to read part of the single dataset into memory, instead of reading the whole file: <strong>matfile</strong> reads from <em>mat file</em>, and <strong>fread</strong> read from <em>binary file</em>.<br>The advantages are obviously.<br>
+          <p>In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored in memory and ready for computing. Well, the problem is, if we read a single large dataset into a variable, it could slow down the computing speed, obviously.<br>The good news is Matlab offers functions allowing us to read part of the single dataset into memory, instead of reading the whole file: <strong>matfile</strong> reads from <em>mat file</em>, and <strong>fread</strong> read from <em>binary file</em>.<br>The advantages are obviously.<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/09/08/computingtest/#more" rel="contents">
               Weiterlesen &raquo;
@@ -339,34 +339,12 @@
 
       
         
-          
-            <p>Nothing Special.<br>Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.<br>I assume you already know something about Shell and AFNI when you are seeing this.<br>As you may know, there are at least two ways to evaluate the coefficient between subjects in a group,which result in nearly identical correlation maps(Honey,2012)<br>Here only one of them are introduced.<br>An correlation coefficients set is created through map of each subject correlating with the average map of the other individuals.<br>Be sure you get rid of the one time course which you are going to do correlation between it and group when you are averaging the time course of group.</p>
-<hr>
-<pre><code>set datapath = /directory where your datatsets are
-cd &quot;$anapath&quot;
-set listening = (listening_chn_sub01.nii listening_chn_sub02.nii listening_chn_sub03.nii \
-listening_chn_sub04.nii listening_chn_sub05.nii listening_chn_sub06.nii \
-listening_chn_sub07.nii listening_chn_sub08.nii listening_chn_sub09.nii \
-listening_chn_sub10.nii listening_chn_sub11.nii listening_chn_sub12.nii \
-listening_chn_sub13.nii listening_chn_sub14.nii listening_chn_sub15.nii listening_chn_sub16.nii) # all of your time course in one group
-set subject = (sub01 sub02 sub03 sub04 sub05 sub06 sub07 sub08 sub09 sub10 sub11 sub12 \
-sub13 sub14 sub15 sub16)
-set i = 1
-while ( $i &lt;= 16 )
-set sub=(`echo ${subject} | awk &apos;{print $&apos;$i&apos;}&apos;`)
-set listening=(`echo $listening | awk &apos;{$&apos;$i&apos;=&quot;&quot;; sub(&quot; &quot;, &quot; &quot;); print}&apos;`)
-set reading=(`echo $reading | awk &apos;{$&apos;$i&apos;=&quot;&quot;; sub(&quot; &quot;, &quot; &quot;); print}&apos;`)
-3dMean -prefix mean_chn_listening.nii $listening
-3dTcorrelate -pearson -polort -1 -prefix r_listening_chn_&quot;$sub&quot;.nii listening_chn_&quot;$sub&quot;.nii mean_chn_listening.nii
-3dcalc -a r_listening_chn_&quot;$sub&quot;.nii -expr &apos;0.5*(log((1+a)/(1-a)))&apos; -prefix z_listening_chn_&quot;$sub&quot;.nii # transform the r value to z
-rm mean_chn_listening.nii # be sure you remove the average time course map when you are done one loop
-@ i ++
-end
-# Now that all of the correlation maps are created for each subject. You can do a one sample t-test against 0 to see if there are any voxels showing significant correlation in this group.
-3dttest++ -prefix ttest_listening_chn.nii \
--setA z_listening_chn_*.nii
-</code></pre>
-          
+          <p>Nothing Special.<br>Below are commands performing Inter-subject correlation(ISC) based analysis of fMRI data using AFNI.<br>I assume you already know something about Shell and AFNI when you are seeing this.<br>As you may know, there are at least two ways to evaluate the coefficient between subjects in a group,which result in nearly identical correlation maps(Honey,2012)<br>Here only one of them are introduced.<br>An correlation coefficients set is created through map of each subject correlating with the average map of the other individuals.<br>Be sure you get rid of the one time course which you are going to do correlation between it and group when you are averaging the time course of group.<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/05/28/ISC/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -452,57 +430,12 @@ end
 
       
         
-          
-            <p>When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on <a href="https://www.whitehouse.gov/briefing-room/weekly-address" target="_blank" rel="external">Whitehouse.org</a>. But there were hundreds of files from 2012-2016. As a man who prosess <strong>Laziness</strong>, <strong>Impatience</strong> and <strong>Hubris</strong> ( three virtues of software design accordding to Larry Wall, what a coincidence! ), I could not tolerate this repetitive work, which should be the job of computer. Then I thought, hey, Python may be a good idea. So I spent hours on the book and internet finding a solution to make the computer do its work using python. I have to say, it’s really a good way to kill time.<br>Below is the codes.</p>
-<hr>
-<pre><code>import urllib.request
-import re
-import sys
-
-import time
-
-
-def read_html(per_url):
-    __html__ = urllib.request.urlopen(per_url).read()
-    html_str = __html__.decode(&apos;utf-8&apos;)
-    return html_str
-
-
-def dl_mp4(per_url):
-    __html__ = read_html(per_url)
-    pattern = re.compile(r&apos;https.{,90}\.mp3&apos;)
-    name_pattern = re.compile(r&apos;\d{6}_.{,16}\.mp3&apos;)
-    vurl = pattern.findall(__html__)
-    name = name_pattern.findall(__html__)
-    if vurl and name:    
-        urllib.request.urlretrieve(vurl[0],&quot;%s&quot; % name[0])
-        print(vurl)
-        print(&quot;%s&quot; % name[0])    
-    else:
-        pass
-
-
-print(&quot;Start Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
-page_number = 0
-urls = []
-while page_number &lt;= 1:
-    html = read_html(&apos;https://www.whitehouse.gov/briefing-room/weekly-address?page=%d&apos; % page_number)
-    links = re.findall(r&apos;the-press-office.*weekly-address.*&quot;&apos;, html)
-    url_per_page = [&quot;https://www.whitehouse.gov/&quot;+x[:-1] for x in links[1:]]
-    page_number += 1
-    urls += url_per_page
-    print(&quot;Request Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
-print(urls)
-
-n = 0
-for url in urls:
-    dl_mp3(url)
-    n += 1
-    print(&quot;Receive %d file:&quot; % n ,time.strftime(&apos;%H:%M:%S&apos;))
-
-print(&quot;Finish Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
-</code></pre>
-          
+          <p>When I was preparing for the IELTS, I tried to download the MP3 of Weekly Address on <a href="https://www.whitehouse.gov/briefing-room/weekly-address">Whitehouse.org</a>. But there were hundreds of files from 2012-2016. As a man who prosess <strong>Laziness</strong>, <strong>Impatience</strong> and <strong>Hubris</strong> ( three virtues of software design accordding to Larry Wall, what a coincidence! ), I could not tolerate this repetitive work, which should be the job of computer. Then I thought, hey, Python may be a good idea. So I spent hours on the book and internet finding a solution to make the computer do its work using python. I have to say, it’s really a good way to kill time.<br>Below is the codes.<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/01/08/Python_crawl/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
         
       
     </div>
