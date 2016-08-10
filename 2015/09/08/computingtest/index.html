@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://mengxing.science/2015/09/08/computingtest/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
 <meta property="og:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
-<meta property="og:updated_time" content="2016-08-10T02:39:09.185Z">
+<meta property="og:updated_time" content="2016-08-10T02:40:22.475Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Computing speed contrast between reading from matfile and binary file | Mengxing Liu">
 <meta name="twitter:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
@@ -187,94 +187,102 @@ classes that you can use:
 <blockquote>
 <p>calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is 176.910272 seconds.<br>calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is 34.537742 seconds.<br><br>Testing function(if you want to do some test, just write a simple loop :) ):</p>
 <hr>
-<p>function calcor(method,result_path)<br>%% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.<br>tic;<br>    if nargin == 0<br>        method = 1;<br>    end<br>    result_path = ‘I:\StoryISC\listen_chn_result\data_mat\’;<br>    if method == 1</p>
+<pre><code>function calcor(method,result_path)
+%% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.
+tic;
+    if nargin == 0
+        method = 1;    
+    end
+    result_path = &apos;I:\StoryISC\listen_chn_result\data_mat\&apos;;
+    if method == 1
+</code></pre></blockquote>
 </blockquote>
-</blockquote>
-<pre><code>    %% method one
-    % read map data from mat files
+<pre><code>        %% method one
+        % read map data from mat files
 
-    name_list = dir(fullfile(result_path,&apos;*.mat&apos;));
-    name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
-    bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
-    bmask = logical(single(bmask.img));
-    tmp = matfile(name_list{1,1});
-    [x,y,z,t] = size(tmp.I);
-    cData = zeros(y,z,t,length(length(name_list)));
-    INDS = find(triu(ones(length(name_list),length(name_list)),1));
-    corMatData = zeros(y,z,length(INDS));
-    cormat = zeros(x,y,z,length(INDS));
-    % do calc correlation
-    for vx = 1:x
+        name_list = dir(fullfile(result_path,&apos;*.mat&apos;));
+        name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
+        bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
+        bmask = logical(single(bmask.img));
+        tmp = matfile(name_list{1,1});
+        [x,y,z,t] = size(tmp.I);
+        cData = zeros(y,z,t,length(length(name_list)));
+        INDS = find(triu(ones(length(name_list),length(name_list)),1));
+        corMatData = zeros(y,z,length(INDS));
+        cormat = zeros(x,y,z,length(INDS));
+        % do calc correlation
+        for vx = 1:x
 
-        for k = 1:length(name_list)
-            tmp = matfile(name_list{1,k});
-            cData(:,:,:,k) = tmp.I(vx,:,:,:);
-        end
-        for vy = 1:y
-            for vz = 1:z
-                if bmask(vx,vy,vz)
-                    ts = squeeze(cData(vy,vz,:,:));
-                    xc = ts - repmat(sum(ts)/t,t,1);
-                    c1 = (xc&apos; * xc) / (t-1);
-                    d1 = sqrt(diag(c1));
-                    dd = d1*d1&apos;;
-                    dd(1:k+1:end) = diag(c1); % remove roundoff on diag
-                    r1 = c1 ./ dd;
-                    r1 = r1(INDS);
-                    % save all correlations:
-                    corMatData(vy,vz,:) = r1;
+            for k = 1:length(name_list)
+                tmp = matfile(name_list{1,k});
+                cData(:,:,:,k) = tmp.I(vx,:,:,:);
+            end
+            for vy = 1:y
+                for vz = 1:z
+                    if bmask(vx,vy,vz)
+                        ts = squeeze(cData(vy,vz,:,:));
+                        xc = ts - repmat(sum(ts)/t,t,1);
+                        c1 = (xc&apos; * xc) / (t-1);
+                        d1 = sqrt(diag(c1));
+                        dd = d1*d1&apos;;
+                        dd(1:k+1:end) = diag(c1); % remove roundoff on diag
+                        r1 = c1 ./ dd;
+                        r1 = r1(INDS);
+                        % save all correlations:
+                        corMatData(vy,vz,:) = r1;
 
+                    end
                 end
             end
-        end
-        cormat(vx,:,:,:) = corMatData;
-        % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
+            cormat(vx,:,:,:) = corMatData;
+            % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
 
-    end
-    save([result_path &apos;cormat.mat&apos;],&apos;cormat&apos;);
-    disp([&apos;the &apos;,&apos;calculating from mat &apos;,&apos; finished!&apos;])
-else
-    %% method two
-    name_list = dir(fullfile(result_path,&apos;*.bin&apos;));
-    name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
-    bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
-    bmask = logical(single(bmask.img));    
-    x = 54;y = 64; z = 50; t = 266;
-    INDS = find(triu(ones(length(name_list),length(name_list)),1));
-    corMatData = zeros(y,z,length(INDS));
-    cormat = zeros(x,y,z,length(INDS));
-    cData = zeros(t,y,z,length(length(name_list)));
-    for vx = 1:x
-
-        for k = 1:length(name_list)
-            tmp = memmapfile(name_list{1,k},&apos;format&apos;,{&apos;single&apos;,[t,y,z],&apos;tyz&apos;});
-            cData(:,:,:,k) = tmp.Data(vx).tyz;
         end
-        for vy = 1:y
-            for vz = 1:z
-                if bmask(vx,vy,vz)
-                    ts = squeeze(cData(:,vy,vz,:));
-                    xc = ts - repmat(sum(ts)/t,t,1);
-                    c1 = (xc&apos; * xc) / (t-1);
-                    d1 = sqrt(diag(c1));
-                    dd = d1*d1&apos;;
-                    dd(1:k+1:end) = diag(c1); % remove roundoff on diag
-                    r1 = c1 ./ dd;
-                    r1 = r1(INDS);
-                    % save all correlations:
-                    corMatData(vy,vz,:) = r1;
+        save([result_path &apos;cormat.mat&apos;],&apos;cormat&apos;);
+        disp([&apos;the &apos;,&apos;calculating from mat &apos;,&apos; finished!&apos;])
+    else
+        %% method two
+        name_list = dir(fullfile(result_path,&apos;*.bin&apos;));
+        name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
+        bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
+        bmask = logical(single(bmask.img));    
+        x = 54;y = 64; z = 50; t = 266;
+        INDS = find(triu(ones(length(name_list),length(name_list)),1));
+        corMatData = zeros(y,z,length(INDS));
+        cormat = zeros(x,y,z,length(INDS));
+        cData = zeros(t,y,z,length(length(name_list)));
+        for vx = 1:x
+
+            for k = 1:length(name_list)
+                tmp = memmapfile(name_list{1,k},&apos;format&apos;,{&apos;single&apos;,[t,y,z],&apos;tyz&apos;});
+                cData(:,:,:,k) = tmp.Data(vx).tyz;
+            end
+            for vy = 1:y
+                for vz = 1:z
+                    if bmask(vx,vy,vz)
+                        ts = squeeze(cData(:,vy,vz,:));
+                        xc = ts - repmat(sum(ts)/t,t,1);
+                        c1 = (xc&apos; * xc) / (t-1);
+                        d1 = sqrt(diag(c1));
+                        dd = d1*d1&apos;;
+                        dd(1:k+1:end) = diag(c1); % remove roundoff on diag
+                        r1 = c1 ./ dd;
+                        r1 = r1(INDS);
+                        % save all correlations:
+                        corMatData(vy,vz,:) = r1;
+                    end
                 end
             end
+            cormat(vx,:,:,:) = corMatData;
+            % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
+
         end
-        cormat(vx,:,:,:) = corMatData;
-        % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
+        disp([&apos;the &apos;,&apos;calculating from bin &apos;,&apos; finished!&apos;])
 
     end
-    disp([&apos;the &apos;,&apos;calculating from bin &apos;,&apos; finished!&apos;])
-
+toc;
 end
-</code></pre><p>toc;<br>end</p>
-
+</code></pre>
   </section>
 
   
