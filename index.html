@@ -143,7 +143,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            Startseite
           </a>
         </li>
       
@@ -219,7 +219,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-09-08T18:30:09+08:00" content="2015-09-08">
               2015-09-08
             </time>
@@ -248,114 +248,12 @@
 
       
         
-          
-            <p>In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored in memory and ready for computing. Well, the problem is, if we read a single large dataset into a variable, it could slow down the computing speed, obviously.<br>The good news is Matlab offers functions allowing us to read part of the single dataset into memory, instead of reading the whole file: <strong>matfile</strong> reads from <em>mat file</em>, and <strong>fread</strong> read from <em>binary file</em>.<br>The advantages are obviously.</p>
-<ul>
-<li>You can save variables as big as you want into a single file, without worrying about read the file later.</li>
-<li>You can access part of one variable if you want.</li>
-<li>You can write/change variable in a large file without loading it, if you enable the permission.</li>
-</ul>
-<p>Ok, if you are convinced, you may wondering which function you want, matfile or fread.<br>Recently, I’m tring to do some caculation, and I wanted to know which one is more efficient. So I run a time test. And It turn out that reading from binary file using fread is faster.</p>
-<hr>
-<p>&lt;&lt; calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is <strong>176.910272 seconds</strong>.<br>&lt;&lt; calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is <strong>34.537742 seconds</strong>.</p>
-<p>Testing function(if you want to do some test, just write a simple loop :) ):</p>
-<hr>
-<pre><code>function calcor(method,result_path)
-%% this function offers two method to read the map of orignal data and calc the correlation between every possible pair.
-tic;
-    if nargin == 0
-        method = 1;    
-    end
-    result_path = &apos;I:\StoryISC\listen_chn_result\data_mat\&apos;;
-    if method == 1
-
-        %% method one
-        % read map data from mat files
-
-        name_list = dir(fullfile(result_path,&apos;*.mat&apos;));
-        name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
-        bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
-        bmask = logical(single(bmask.img));
-        tmp = matfile(name_list{1,1});
-        [x,y,z,t] = size(tmp.I);
-        cData = zeros(y,z,t,length(length(name_list)));
-        INDS = find(triu(ones(length(name_list),length(name_list)),1));
-        corMatData = zeros(y,z,length(INDS));
-        cormat = zeros(x,y,z,length(INDS));
-        % do calc correlation
-        for vx = 1:x
-
-            for k = 1:length(name_list)
-                tmp = matfile(name_list{1,k});
-                cData(:,:,:,k) = tmp.I(vx,:,:,:);
-            end
-            for vy = 1:y
-                for vz = 1:z
-                    if bmask(vx,vy,vz)
-                        ts = squeeze(cData(vy,vz,:,:));
-                        xc = ts - repmat(sum(ts)/t,t,1);
-                        c1 = (xc&apos; * xc) / (t-1);
-                        d1 = sqrt(diag(c1));
-                        dd = d1*d1&apos;;
-                        dd(1:k+1:end) = diag(c1); % remove roundoff on diag
-                        r1 = c1 ./ dd;
-                        r1 = r1(INDS);
-                        % save all correlations:
-                        corMatData(vy,vz,:) = r1;
-
-                    end
-                end
-            end
-            cormat(vx,:,:,:) = corMatData;
-            % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
-
-        end
-        save([result_path &apos;cormat.mat&apos;],&apos;cormat&apos;);
-        disp([&apos;the &apos;,&apos;calculating from mat &apos;,&apos; finished!&apos;])
-    else
-        %% method two
-        name_list = dir(fullfile(result_path,&apos;*.bin&apos;));
-        name_list = strcat(result_path,extractfield(name_list(1:4),&apos;name&apos;));
-        bmask = load_nii(&apos;I:\StoryISC\2group\ts_all\mask_biling+tlrc.nii&apos;);
-        bmask = logical(single(bmask.img));    
-        x = 54;y = 64; z = 50; t = 266;
-        INDS = find(triu(ones(length(name_list),length(name_list)),1));
-        corMatData = zeros(y,z,length(INDS));
-        cormat = zeros(x,y,z,length(INDS));
-        cData = zeros(t,y,z,length(length(name_list)));
-        for vx = 1:x
-
-            for k = 1:length(name_list)
-                tmp = memmapfile(name_list{1,k},&apos;format&apos;,{&apos;single&apos;,[t,y,z],&apos;tyz&apos;});
-                cData(:,:,:,k) = tmp.Data(vx).tyz;
-            end
-            for vy = 1:y
-                for vz = 1:z
-                    if bmask(vx,vy,vz)
-                        ts = squeeze(cData(:,vy,vz,:));
-                        xc = ts - repmat(sum(ts)/t,t,1);
-                        c1 = (xc&apos; * xc) / (t-1);
-                        d1 = sqrt(diag(c1));
-                        dd = d1*d1&apos;;
-                        dd(1:k+1:end) = diag(c1); % remove roundoff on diag
-                        r1 = c1 ./ dd;
-                        r1 = r1(INDS);
-                        % save all correlations:
-                        corMatData(vy,vz,:) = r1;
-                    end
-                end
-            end
-            cormat(vx,:,:,:) = corMatData;
-            % disp([&apos;the &apos;,num2str(vx),&apos;th&apos;,&apos; finished!&apos;])
-
-        end
-        disp([&apos;the &apos;,&apos;calculating from bin &apos;,&apos; finished!&apos;])
-
-    end
-toc;
-end
-</code></pre>
-          
+          <p>In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored in memory and ready for computing. Well, the problem is, if we read a single large dataset into a variable, it could slow down the computing speed, obviously.<br>The good news is Matlab offers functions allowing us to read part of the single dataset into memory, instead of reading the whole file: <strong>matfile</strong> reads from <em>mat file</em>, and <strong>fread</strong> read from <em>binary file</em>.<br>The advantages are obviously.<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/09/08/computingtest/#more" rel="contents">
+              Weiterlesen &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -412,7 +310,7 @@ end
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-05-28T15:40:09+08:00" content="2015-05-28">
               2015-05-28
             </time>
@@ -525,7 +423,7 @@ end
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2015-01-08T19:28:09+08:00" content="2015-01-08">
               2015-01-08
             </time>
@@ -661,7 +559,7 @@ print(&quot;Finish Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">Posted on</span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
             <time itemprop="dateCreated" datetime="2014-12-09T20:45:50+08:00" content="2014-12-09">
               2014-12-09
             </time>
@@ -759,7 +657,7 @@ print(&quot;Finish Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
           <div class="site-state-item site-state-posts">
             <a href="/">
               <span class="site-state-item-count">4</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">Artikel</span>
             </a>
           </div>
 
@@ -808,7 +706,7 @@ print(&quot;Finish Time:&quot;,time.strftime(&apos;%H:%M:%S&apos;))
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  Erstellt mit  <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
