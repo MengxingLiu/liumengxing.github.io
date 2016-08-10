@@ -22,7 +22,7 @@
 <meta property="og:url" content="http://mengxing.science/2015/09/08/computingtest/index.html">
 <meta property="og:site_name" content="Mengxing Liu">
 <meta property="og:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
-<meta property="og:updated_time" content="2016-08-10T02:41:43.668Z">
+<meta property="og:updated_time" content="2016-08-10T02:42:59.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Computing speed contrast between reading from matfile and binary file | Mengxing Liu">
 <meta name="twitter:description" content="In Neuroscience, we often deal with large data storage and management. Single fmri dataset or eeg dataset is usually 100+M. In matlab, reading a dataset into a variable in workspace means it is stored">
@@ -183,11 +183,7 @@ classes that you can use:
 </ul>
 <p>Ok, if you are convinced, you may wondering which function you want, matfile or fread.<br>Recently, I’m tring to do some caculation, and I wanted to know which one is more efficient. So I run a time test. And It turn out that reading from binary file using fread is faster.</p>
 <hr>
-<blockquote>
-<blockquote>
-<p>calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is 176.910272 seconds.<br>calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is 34.537742 seconds.</p>
-</blockquote>
-</blockquote>
+<p>&lt;&lt; calcor2(1)<br>the calculating from mat  finished!<br>Elapsed time is 176.910272 seconds.<br>&lt;&lt; calcor2(2)<br>the calculating from bin  finished!<br>Elapsed time is 34.537742 seconds.</p>
 <p>Testing function(if you want to do some test, just write a simple loop :) ):</p>
 <hr>
 <pre><code>function calcor(method,result_path)
