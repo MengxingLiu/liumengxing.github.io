@@ -1512,7 +1512,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #ffa2ff;
+  background: #d4ff87;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2157,7 +2157,7 @@ body {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: 700px;
+  width: calc(90% - 260px);
   background: #fff;
 }
 @media (min-width: 768px) and (max-width: 991px) {
