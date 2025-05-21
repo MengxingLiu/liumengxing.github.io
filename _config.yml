@@ -1,0 +1,18 @@
+# Site Settings
+title: "Your Site Name"
+description: "A description for your site"
+baseurl: ""  # Leave empty unless using a subdirectory (e.g., "/blog")
+url: "https://mengxingliu.netlify.app"  # Replace with your Netlify URL/custom domain
+
+# Build Settings
+markdown: kramdown  # Default Markdown processor
+plugins:
+  - jekyll-sitemap  # Optional: Generate a sitemap
+  - jekyll-seo-tag   # Optional: SEO optimization
+
+# Optional: Set defaults for front matter (e.g., posts)
+defaults:
+  - scope:
+      path: ""       # Applies to all files
+    values:
+      layout: "default"  # Default layout (in `_layouts/default.html`)
