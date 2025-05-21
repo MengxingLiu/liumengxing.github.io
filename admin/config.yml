@@ -1,20 +1,13 @@
 backend:
-  name: github
-  repo: mengxingliu/mengxingliu.github.io
-  branch: main
-
-media_folder: "assets/uploads"
-public_folder: "/assets/uploads"
-
+  name: git-gateway
+  branch: main  # Your default Git branch
+media_folder: "images/uploads"  # Where uploaded images go
 collections:
-  - name: "pages"
-    label: "Pages"
-    files:
-      - label: "Home"
-        name: "index"
-        file: "index.md"
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Body", name: "body", widget: "markdown" }
-
-
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "_posts"  # Jekyll posts folder
+    create: true
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "date", label: "Date", widget: "datetime" }
+      - { name: "body", label: "Content", widget: "markdown" }
