@@ -3,5 +3,5 @@
   command = "bundle exec jekyll build"
 
 [build.environment]
-  RUBY_VERSION = "2.7.5"
+  RUBY_VERSION = "3.4.4"
   JEKYLL_ENV=production
