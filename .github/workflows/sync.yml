@@ -1,0 +1,15 @@
+name: Sync Preview with Master
+on:
+  push:
+    branches: [ master ]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync Preview Branch
+        run: |
+          git fetch origin preview
+          git checkout preview
+          git merge origin/master --no-edit
+          git push origin preview
