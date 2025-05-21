@@ -1,5 +1,5 @@
 [build]
-  command = "bundle exec jekyll build"
+  command = "npm install -D @stackbit/types @stackbit/cms-git && bundle exec jekyll build"
   publish = "_site"
 
 [build.environment]
