@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: mengxingliu/liumengxing.github.io
+  repo: mengxingliu/mengxingliu.github.io
   branch: main
 
 media_folder: "assets/uploads"
